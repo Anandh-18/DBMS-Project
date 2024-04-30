@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quiz Result</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Quiz Result</h1>
+    <div id="result"></div>
+  </div>
+  <script>
+    var name = new URLSearchParams(window.location.search).get("name");
+    var email = new URLSearchParams(window.location.search).get("email");
+    var topic = new URLSearchParams(window.location.search).get("topic");
+    var score = new URLSearchParams(window.location.search).get("score");
+
+    var resultHtml = '<p><strong>Name:</strong> ' + name + '</p>';
+    resultHtml += '<p><strong>Email:</strong> ' + email + '</p>';
+    resultHtml += '<p><strong>Selected Topic:</strong> ' + topic + '</p>';
+    resultHtml += '<p><strong>Score:</strong> ' + score + '/3</p>';
+
+    document.getElementById('result').innerHTML = resultHtml;
+  </script>
+</body>
+</html>

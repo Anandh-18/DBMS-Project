@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quiz Questions</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Quiz Questions</h1>
+    <div id="questions"></div>
+    <button onclick="submitQuiz()">Submit Quiz</button>
+  </div>
+  <script>
+    var questions = JSON.parse(sessionStorage.getItem('questions'));
+
+    if (!questions) {
+      alert('No questions found. Please select a topic first.');
+      window.location.href = 'index.html';
+    }
+
+    var questionsHtml = '';
+
+    questions.forEach(function(question, index) {
+      questionsHtml += '<h3>Question ' + (index + 1) + ': ' + question.question + '</h3>';
+      question.options.forEach(function(option, i) {
+        questionsHtml += '<input type="radio" id="q' + index + 'option' + i + '" name="q' + index + '" value="' + option + '">';
+        questionsHtml += '<label for="q' + index + 'option' + i + '">' + option + '</label><br>';
+      });
+      questionsHtml += '<br>';
+    });
+
+    document.getElementById('questions').innerHTML = questionsHtml;
+
+    function submitQuiz() {
+      var correctAnswers = 0;
+      questions.forEach(function(question, index) {
+        var selectedOption = document.querySelector('input[name="q' + index + '"]:checked');
+        if (selectedOption) {
+          if (selectedOption.value === question.answer) {
+            correctAnswers++;
+          }
+        }
+      });
+
+      var name = new URLSearchParams(window.location.search).get("name");
+      var email = new URLSearchParams(window.location.search).get("email");
+      var topic = new URLSearchParams(window.location.search).get("topic");
+
+      // Redirect to the result page
+      var redirectURL = 'result.html?name=' + name + '&email=' + email + '&topic=' + topic + '&score=' + correctAnswers;
+      window.location.href = redirectURL;
+    }
+  </script>
+</body>
+</html>
